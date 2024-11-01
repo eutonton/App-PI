@@ -7,7 +7,7 @@ export default function Home() {
     const navigation = useNavigation(); // Hook de navegação
 
     const handleNavigate = () => {
-        navigation.navigate('OutraPagina'); // Nome da tela para a qual quer navegar
+        navigation.navigate('profileScreen'); // Nome da tela para a qual quer navegar
     };
 
     return (
