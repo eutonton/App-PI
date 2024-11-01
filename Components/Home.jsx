@@ -3,11 +3,13 @@ import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
 
+
+
 export default function Home() {
     const navigation = useNavigation(); // Hook de navegação
 
     const handleNavigate = () => {
-        navigation.navigate('profileScreen'); // Nome da tela para a qual quer navegar
+        navigation.navigate('Profile'); 
     };
 
     return (

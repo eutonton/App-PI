@@ -16,6 +16,12 @@ export default function StackRoutes() {
             />
 
             <Stack.Screen
+                name='Home'
+                component={DrawerRoutes}
+
+            />
+
+            <Stack.Screen
                 name='Profile'
                 component={Profile}
 
