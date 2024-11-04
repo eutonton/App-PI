@@ -21,11 +21,11 @@ export default function StackRoutes() {
 
             />
 
-            <Stack.Screen
+            {/* <Stack.Screen
                 name='Profile'
                 component={Profile}
 
-            />
+            /> */}
 
         </Stack.Navigator>
 
