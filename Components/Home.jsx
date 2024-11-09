@@ -19,7 +19,7 @@ export default function Home() {
                 colors={['#D93083', '#9B4696', '#645CA5']}
                 style={styles.gradientBox}
             >
-                <Text style={styles.title}>Nome do Aluno</Text>
+                <Text style={styles.title}>Nome do Aluno</Text>{/*Retorno da API*/}
                 <Text style={styles.subtitle}>Seja Bem-Vindo!</Text>
                 <View style={styles.line} />
 
@@ -29,8 +29,8 @@ export default function Home() {
                 </View>
 
                 <View style={styles.rowContainer2}>
-                    <Text style={styles.subContentBoxG}>Manhã</Text>
-                    <Text style={styles.subContentBoxG}>3A</Text>
+                    <Text style={styles.subContentBoxG}>Manhã</Text>{/*Retorno da API*/}
+                    <Text style={styles.subContentBoxG}>3A</Text>{/*Retorno da API*/}
                 </View>
 
                 {/* Retângulo com texto e navegação */}
