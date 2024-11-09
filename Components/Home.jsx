@@ -1,43 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, Text, TouchableOpacity, Alert } from 'react-native';
+import React from 'react';
+import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios from 'axios';
+
+
 
 export default function Home() {
     const navigation = useNavigation(); // Hook de navegação
-    const [studentData, setStudentData] = useState(null); // Estado para armazenar dados do aluno
-
-    // Função para buscar dados do aluno
-    const fetchStudentData = async () => {
-        try {
-            // Recupera os dados do usuário armazenados (token e userId)
-            const storedUserData = await AsyncStorage.getItem('userData');
-            const userData = JSON.parse(storedUserData);
-            
-            if (userData && userData.token && userData.userId) {
-                // Faz a requisição GET para a API
-                const response = await axios.get(`https://suaapi.com/student/${userData.userId}`, {
-                    headers: {
-                        Authorization: `Bearer ${userData.token}`, // Envia o token no cabeçalho de autorização
-                    },
-                });
-
-                setStudentData(response.data); // Armazena os dados do aluno
-            } else {
-                Alert.alert('Erro', 'Não foi possível recuperar os dados do usuário.');
-            }
-        } catch (error) {
-            Alert.alert('Erro', 'Falha ao carregar os dados do aluno.');
-            console.error(error);
-        }
-    };
-
-    // Hook de efeito para buscar os dados do aluno assim que a tela é carregada
-    useEffect(() => {
-        fetchStudentData();
-    }, []);
 
     const handleNavigate = () => {
         navigation.navigate('Profile'); 
@@ -45,13 +14,12 @@ export default function Home() {
 
     return (
         <View style={styles.container}>
+            {/* Quadrado com bordas arredondadas e gradiente */}
             <LinearGradient
                 colors={['#D93083', '#9B4696', '#645CA5']}
                 style={styles.gradientBox}
             >
-                <Text style={styles.title}>
-                    {studentData ? studentData.nome : 'Carregando...'}
-                </Text>
+                <Text style={styles.title}>Nome do Aluno</Text>{/*Retorno da API*/}
                 <Text style={styles.subtitle}>Seja Bem-Vindo!</Text>
                 <View style={styles.line} />
 
@@ -61,19 +29,17 @@ export default function Home() {
                 </View>
 
                 <View style={styles.rowContainer2}>
-                    <Text style={styles.subContentBoxG}>
-                        {studentData ? studentData.turno : 'Carregando...'}
-                    </Text>
-                    <Text style={styles.subContentBoxG}>
-                        {studentData ? studentData.turma : 'Carregando...'}
-                    </Text>
+                    <Text style={styles.subContentBoxG}>Manhã</Text>{/*Retorno da API*/}
+                    <Text style={styles.subContentBoxG}>3A</Text>{/*Retorno da API*/}
                 </View>
 
+                {/* Retângulo com texto e navegação */}
                 <TouchableOpacity style={styles.rectangle} onPress={handleNavigate}>
                     <Text style={styles.rectangleText}>Ver Perfil</Text>
                 </TouchableOpacity>
             </LinearGradient>
 
+            {/* Boxes brancos */}
             <View style={styles.boxContainer}>
                 {Array.from({ length: 6 }).map((_, index) => (
                     <View key={index} style={styles.box} />
