@@ -2,21 +2,18 @@ import React, { useState, useContext } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, StatusBar, Image, Alert, Platform } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import axios from 'axios';
-import { AuthContext } from '../AuthContext'; // Ajuste o caminho conforme necessário
+import { AuthContext } from '../AuthContext';
 
 export default function Login({ navigation }) {
   const [cpf, setCpf] = useState('');
   const [password, setPassword] = useState('');
-  const { login } = useContext(AuthContext); // Usando login do AuthContext
+  const { login } = useContext(AuthContext);
 
-  // Função para pegar o IP ou URL correta
   const getApiUrl = () => {
-    // Emulador Android
     if (Platform.OS === 'android') {
-      return 'http://10.0.2.2:8080/api/auth/login';  // Usado em emuladores Android
+      return 'http://10.0.2.2:8080/api/auth/login';
     }
-    // Dispositivos físicos ou emulador iOS
-    return 'http://192.168.1.2:8080/api/auth/login'; // Substitua 192.168.1.2 pelo seu IP local
+    return 'http://192.168.1.2:8080/api/auth/login';
   };
 
   const handleLogin = async () => {
@@ -26,27 +23,37 @@ export default function Login({ navigation }) {
     }
 
     try {
-      const apiUrl = getApiUrl();  // Usar a URL correta conforme o ambiente
+      const apiUrl = getApiUrl();
 
-      // Fazendo a requisição de login
+      // Requisição de login
       const response = await axios.post(apiUrl, { cpf, password });
 
-      // Aqui, vamos considerar a navegação para a tela Home assim que recebermos qualquer resposta válida
-      const { token } = response.data; // Apenas verificando o token
+      // Console para verificar o conteúdo da resposta da API
+      console.log("Dados recebidos da API:", response.data);
+
+      // Extraindo dados do LoginResponseDto
+      const { token, name, role, id, studentClass } = response.data;
 
       if (token) {
-        // Se o token for retornado, faz o login no contexto e navega para a tela Home
-        const userData = { token };
-        await login(userData); // Chama a função login do AuthContext
+        const userData = { token, name, role, id, studentClass };
 
-        // Navegar para a tela principal
-        navigation.navigate('Home');
+        // Console para verificar os dados enviados para Home
+        console.log("Dados enviados para Home:", userData);
+
+        // Salvar dados no contexto
+        await login(userData);
+
+        // Verificar se userData foi corretamente salvo no contexto
+        console.log("Dados do usuário após login:", userData);
+
+        // Navegar para a tela Home com os dados do usuário
+        navigation.navigate('Home', { userData });
       } else {
         Alert.alert('Erro', 'Erro ao fazer login');
       }
     } catch (error) {
       if (error.response && error.response.data) {
-        Alert.alert('Erro', error.response.data);
+        Alert.alert('Erro', error.response.data.message || 'Erro ao tentar autenticar');
       } else {
         Alert.alert('Erro', 'Não foi possível conectar ao servidor.');
       }
@@ -60,7 +67,6 @@ export default function Login({ navigation }) {
       <View style={styles.loginBox}>
         <Image source={require('../assets/logo.png')} style={styles.logo} />
         
-        {/* Campo para CPF */}
         <TextInput 
           placeholder="CPF" 
           style={styles.input} 
@@ -71,7 +77,6 @@ export default function Login({ navigation }) {
           onChangeText={setCpf}
         />
         
-        {/* Campo para Senha */}
         <TextInput 
           placeholder="Senha" 
           style={styles.input} 
@@ -127,7 +132,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 5,
-    elevation: 8, 
+    elevation: 8,
   },
   buttonText: {
     color: '#fff',
