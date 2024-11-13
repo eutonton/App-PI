@@ -46,6 +46,13 @@ export default function Login({ navigation }) {
         // Verificar se userData foi corretamente salvo no contexto
         console.log("Dados do usuário após login:", userData);
 
+        // Verificação de segurança para evitar erro se studentClass estiver ausente
+        if (studentClass && studentClass.nameClass) {
+          console.log("Nome da classe do aluno:", studentClass.nameClass);
+        } else {
+          console.log("studentClass está undefined ou não contém a propriedade nameClass");
+        }
+
         // Navegar para a tela Home com os dados do usuário
         navigation.navigate('Home', { userData });
       } else {
