@@ -1,40 +1,25 @@
-import React, { createContext, useState, useEffect, useContext } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { createContext, useState, useContext } from 'react';
 
-// Hook personalizado para acessar o AuthContext
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
-};
-
-// Criação do contexto de autenticação
+// Criação do contexto
 export const AuthContext = createContext();
 
-// AuthProvider para fornecer estado de autenticação
+// Hook personalizado para acessar o contexto
+export const useAuth = () => {
+  return useContext(AuthContext);
+};
+
+// Componente que fornece o contexto para seus filhos
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
-  useEffect(() => {
-    const loadUserData = async () => {
-      const userData = await AsyncStorage.getItem('userData');
-      if (userData) {
-        setUser(JSON.parse(userData));
-      }
-    };
-    loadUserData();
-  }, []);
-
-  const login = async (userData) => {
+  const login = (userData) => {
     setUser(userData);
-    await AsyncStorage.setItem('userData', JSON.stringify(userData));
+    console.log("Usuário salvo no contexto:", userData);
   };
 
-  const logout = async () => {
+  const logout = () => {
     setUser(null);
-    await AsyncStorage.removeItem('userData');
+    console.log("Usuário removido do contexto");
   };
 
   return (

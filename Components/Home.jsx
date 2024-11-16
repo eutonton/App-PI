@@ -6,19 +6,17 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 export default function Home() {
     const navigation = useNavigation();
     const route = useRoute();
-    
-    // Garantir que estamos recebendo os dados corretamente
-    const userData = route.params?.userData; // Certificando-se de que os dados existem
 
-    // Armazenando dados em variáveis locais com tratamento de fallback
+    const userData = route.params?.userData;
+
+    // Extraindo os dados corretamente com base na estrutura do objeto
     const userName = userData?.name || 'Usuário Desconhecido';
-    const userShift = userData?.studentClass?.shift || 'Turno não definido';
-    const userClass = userData?.studentClass?.nameClass || 'Turma não definida';
+    const userShift = userData?.shift || 'Turno não definido';
+    const userClass = userData?.className || 'Turma não definida';
 
-    // UseEffect para exibir o alerta com os dados do usuário quando a tela carrega
     useEffect(() => {
         if (userData) {
-            Alert.alert('Dados do Usuário', JSON.stringify(userData, null, 2));
+            //.alert('Dados do Usuário', JSON.stringify(userData, null, 2));
         } else {
             Alert.alert('Erro', 'Os dados do usuário não foram carregados.');
         }
@@ -91,7 +89,7 @@ const styles = StyleSheet.create({
     subtitle: {
         color: '#FFFFFF', 
         fontSize: 12, 
-        marginBottom: 50,
+        marginBottom: 30,
         marginLeft: 20,
     },
     line: {
@@ -99,7 +97,7 @@ const styles = StyleSheet.create({
         height: 1,
         backgroundColor: '#FFFFFF',
         opacity: 1, 
-        marginTop: 40,
+        marginTop: 10,
         marginLeft: 15,
     }, 
     rowContainer: {
@@ -122,8 +120,8 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     subContentBoxG: {
-        marginTop: 5,
-        marginLeft: 41,
+        marginTop: 0,
+        marginLeft: 35,
         color: '#FFFFFF', 
         fontSize: 17, 
         fontWeight: 'bold', 
@@ -135,7 +133,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',  
         borderRadius: 5,
-        marginLeft: 250,
+        marginLeft: 220,
         marginTop: -35,
     },
     rectangleText: {

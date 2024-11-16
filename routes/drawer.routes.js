@@ -4,6 +4,7 @@ import { Feather } from '@expo/vector-icons'
 import TabRoutes from './tab.routes';
 import Profile from '../Components/Profile';
 import Avisos from '../Components/Avisos';
+import Home from '../Components/Home';
 
 const Drawer = createDrawerNavigator();
 

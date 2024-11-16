@@ -1,13 +1,13 @@
 import React, { useState, useContext } from 'react';
+import { AuthContext, useAuth } from '../AuthContext';  // Certifique-se de importar o hook corretamente
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, StatusBar, Image, Alert, Platform } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import axios from 'axios';
-import { AuthContext } from '../AuthContext';
 
 export default function Login({ navigation }) {
   const [cpf, setCpf] = useState('');
   const [password, setPassword] = useState('');
-  const { login } = useContext(AuthContext);
+  const { login } = useAuth();  // Usando o hook corretamente
 
   const getApiUrl = () => {
     if (Platform.OS === 'android') {
@@ -31,27 +31,18 @@ export default function Login({ navigation }) {
       // Console para verificar o conteúdo da resposta da API
       console.log("Dados recebidos da API:", response.data);
 
-      // Extraindo dados do LoginResponseDto
-      const { token, name, role, id, studentClass } = response.data;
+      const { token, name, role, id, email, studentClass } = response.data;
 
       if (token) {
-        const userData = { token, name, role, id, studentClass };
+        const userData = response.data;
 
-        // Console para verificar os dados enviados para Home
-        console.log("Dados enviados para Home:", userData);
+        if (studentClass) {
+          userData.studentClassName = studentClass.nameClass;
+          userData.shift = studentClass.shift;
+        }
 
         // Salvar dados no contexto
         await login(userData);
-
-        // Verificar se userData foi corretamente salvo no contexto
-        console.log("Dados do usuário após login:", userData);
-
-        // Verificação de segurança para evitar erro se studentClass estiver ausente
-        if (studentClass && studentClass.nameClass) {
-          console.log("Nome da classe do aluno:", studentClass.nameClass);
-        } else {
-          console.log("studentClass está undefined ou não contém a propriedade nameClass");
-        }
 
         // Navegar para a tela Home com os dados do usuário
         navigation.navigate('Home', { userData });

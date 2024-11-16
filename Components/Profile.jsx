@@ -1,46 +1,70 @@
-
-import React from 'react';
-import { View, StyleSheet, Image, Text } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, Image, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import { AsyncStorage } from 'react-native'; // Para pegar o nome salvo
+import axios from 'axios';
 
 export default function Profile() {
+  const [userDetails, setUserDetails] = useState({});
+  const [error, setError] = useState(null);
+
+  // Função para pegar o nome do usuário armazenado e buscar os dados
+  useEffect(() => {
+    const fetchUserDetails = async () => {
+      try {
+        // Pega o nome salvo no AsyncStorage
+        const nameUser = await AsyncStorage.getItem('nameUser');
+
+        if (nameUser) {
+          // Faz a requisição ao endpoint com o nome do usuário
+          const response = await axios.get(`http://192.168.1.106:8080/api/users/alunos/findByNome/${nameUser}`);
+          setUserDetails(response.data); // Salva os detalhes do usuário
+        }
+      } catch (err) {
+        setError('Erro ao buscar os dados do usuário');
+      }
+    };
+
+    fetchUserDetails();
+  }, []);
+
+  // Se houver erro, exibe na tela
+  if (error) {
+    return <Text>{error}</Text>;
+  }
+
   return (
     <View style={styles.container}>
-      {/* Box com gradiente */}
       <LinearGradient
         colors={['#D93083', '#9B4696', '#645CA5']} // Gradiente de 3 cores
         style={styles.box}
       >
-        {/* Ícone de perfil dentro do gradiente */}
         <Image source={require('../assets/profile_icon.png')} style={styles.profileIcon} />
-        
-        {/* Nome do usuário abaixo do ícone */}
-        <Text style={styles.subiImgText}>Wellinton Araújo</Text>
-        <Text style={styles.subiImgText2}>wellington@email.com</Text>
+        <Text style={styles.subiImgText}>{userDetails.name}</Text>
+        <Text style={styles.subiImgText2}>{userDetails.email}</Text>
 
         <View style={styles.rectangle}>
-          {/* Informações do usuário */}
           <View style={styles.row}>
             <Text style={styles.text}>CPF</Text>
-            <Text style={styles.subText}>545.646.98-78</Text>
+            <Text style={styles.subText}>{userDetails.cpf}</Text>
           </View>
           <View style={styles.line} />
 
           <View style={styles.row}>
             <Text style={styles.text}>Nascimento</Text>
-            <Text style={styles.subText}>04/09/2005</Text>
+            <Text style={styles.subText}>{userDetails.birthDate}</Text>
           </View>
           <View style={styles.line} />
 
           <View style={styles.row}>
             <Text style={styles.text}>Classe</Text>
-            <Text style={styles.subText}>545.646.98-78</Text>
+            <Text style={styles.subText}>{userDetails.className}</Text>
           </View>
           <View style={styles.line} />
 
           <View style={styles.row}>
             <Text style={styles.text}>Turno</Text>
-            <Text style={styles.subText}>545.646.98-78</Text>
+            <Text style={styles.subText}>{userDetails.shift}</Text>
           </View>
           <View style={styles.line} />
         </View>
@@ -123,3 +147,4 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
 });
+
