@@ -17,6 +17,9 @@ export const AuthProvider = ({ children }) => {
     console.log("Usuário salvo no contexto:", userData);
   };
 
+ 
+  
+
   const logout = () => {
     setUser(null);
     console.log("Usuário removido do contexto");

@@ -3,6 +3,7 @@ import { AuthContext, useAuth } from '../AuthContext';  // Certifique-se de impo
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, StatusBar, Image, Alert, Platform } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';  // Importando AsyncStorage
 
 export default function Login({ navigation }) {
   const [cpf, setCpf] = useState('');
@@ -44,6 +45,18 @@ export default function Login({ navigation }) {
         // Salvar dados no contexto
         await login(userData);
 
+
+        const saveUserData = async (userData) => {
+          try {
+            // Salvar dados no AsyncStorage
+            await AsyncStorage.setItem('userData', JSON.stringify(userData));
+            console.log('Dados salvos com sucesso:', userData);
+          } catch (error) {
+            console.error('Erro ao salvar dados no AsyncStorage:', error);
+          }
+        };
+
+
         // Navegar para a tela Home com os dados do usuário
         navigation.navigate('Home', { userData });
       } else {
@@ -64,26 +77,26 @@ export default function Login({ navigation }) {
       <StatusBar barStyle="light-content" />
       <View style={styles.loginBox}>
         <Image source={require('../assets/logo.png')} style={styles.logo} />
-        
-        <TextInput 
-          placeholder="CPF" 
-          style={styles.input} 
-          placeholderTextColor="#888" 
+
+        <TextInput
+          placeholder="CPF"
+          style={styles.input}
+          placeholderTextColor="#888"
           keyboardType="numeric"
           autoCapitalize="none"
-          value={cpf} 
+          value={cpf}
           onChangeText={setCpf}
         />
-        
-        <TextInput 
-          placeholder="Senha" 
-          style={styles.input} 
-          placeholderTextColor="#888" 
-          secureTextEntry 
-          value={password} 
+
+        <TextInput
+          placeholder="Senha"
+          style={styles.input}
+          placeholderTextColor="#888"
+          secureTextEntry
+          value={password}
           onChangeText={setPassword}
         />
-        
+
         <TouchableOpacity style={styles.button} onPress={handleLogin}>
           <Text style={styles.buttonText}>Entrar</Text>
         </TouchableOpacity>
