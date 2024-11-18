@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ActivityIndicator, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ActivityIndicator, FlatList } from 'react-native';
 import { useAuth } from '../AuthContext';
-import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 
 const Conceitos = () => {
   const { user } = useAuth();
-  const navigation = useNavigation();
   const [disciplines, setDisciplines] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -66,15 +64,12 @@ const Conceitos = () => {
       {disciplines.length > 0 ? (
         <FlatList
           data={disciplines}
-          keyExtractor={(item) => item.id.toString()} // ID único de cada disciplina
+          keyExtractor={(item) => item.id} // ID único de cada disciplina
           renderItem={({ item }) => (
-            <TouchableOpacity
-              style={styles.disciplineItem}
-              onPress={() => navigation.navigate('Units', { discipline: item })} // Navegar para a tela de unidades
-            >
+            <View style={styles.disciplineItem}>
               <Text style={styles.disciplineText}>{item.disciplineName}</Text>
               <Text style={styles.disciplineDescription}>{item.description}</Text>
-            </TouchableOpacity>
+            </View>
           )}
         />
       ) : (

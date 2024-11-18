@@ -2,7 +2,7 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home from '../Components/Home';
 import Matter from '../Components/Matter';
-import Horarios from '../Components/Horarios';
+import Conceitos from '../Components/Concepts';
 import Avisos from '../Components/Avisos';
 import Profile from '../Components/Profile';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -24,7 +24,7 @@ export default function TabRoutes() {
             iconName = 'home';
           } else if (route.name === 'Materias') {
             iconName = 'book';
-          } else if (route.name === 'Horarios') {
+          } else if (route.name === 'Conceitos') {
             iconName = 'clock-o';
           } else if (route.name === 'Avisos') {
             iconName = 'bell';
@@ -38,7 +38,7 @@ export default function TabRoutes() {
     >
       <Tab.Screen name="Home" component={Home} initialParams={{ userData: user }} />
       <Tab.Screen name="Materias" component={Matter} />
-      <Tab.Screen name="Horarios" component={Horarios} />
+      <Tab.Screen name="Conceitos" component={Conceitos} />
       <Tab.Screen name="Avisos" component={Avisos} />
     </Tab.Navigator>
   );
