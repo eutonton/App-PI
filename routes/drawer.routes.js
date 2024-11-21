@@ -20,24 +20,6 @@ export default function DrawerRoutes() {
                     drawerLabel: 'Início'
                 }}
             />
-
-            <Drawer.Screen
-                name='profile'
-                component={Profile}
-                options={{
-                    drawerIcon: ({ color, size }) => <Feather name="user" color={color} size={size} />,
-                    drawerLabel: 'Meu Perfil'
-                }}
-            />
-
-            <Drawer.Screen
-                name='avisos'
-                component={Avisos}
-                options={{
-                    drawerIcon: ({ color, size }) => <Feather name="user" color={color} size={size} />,
-                    drawerLabel: 'Avisos'
-                }}
-            />
         </Drawer.Navigator>
 
     )
