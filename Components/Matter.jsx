@@ -13,16 +13,31 @@ const Conceitos = () => {
 
   const fetchClass = async (classId) => {
     try {
-      const response = await axios.get('http://192.168.1.106:8080/api/classes/getAllClasses');
-      const filteredClass = response.data.find((classItem) => classItem.id === classId);
+      console.log('Buscando classes para classId:', classId);
+
+      const response = await axios.get('http://192.168.1.107:8080/api/classes/getAllClasses');
+      console.log('Resposta completa da API:', response.data);
+
+      // Valida se a resposta é um array
+      if (!Array.isArray(response.data)) {
+        throw new Error('Formato inesperado de resposta da API. Esperado um array.');
+      }
+
+      // Procure pela classe com o ID correspondente
+      const filteredClass = response.data.find((classItem) => String(classItem.id).trim() === String(classId).trim());
+      console.log('Classe encontrada:', filteredClass);
 
       if (!filteredClass) {
-        throw new Error('Classe não encontrada.');
+        throw new Error(`Classe com ID ${classId} não encontrada na API.`);
+      }
+
+      if (!Array.isArray(filteredClass.disciplines)) {
+        throw new Error('A propriedade disciplines está ausente ou não é um array.');
       }
 
       return filteredClass.disciplines;
     } catch (error) {
-      console.error('Erro ao buscar disciplinas:', error);
+      console.error('Erro ao buscar disciplinas:', error.message);
       throw error;
     }
   };
@@ -30,7 +45,11 @@ const Conceitos = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const disciplinesData = await fetchClass(user?.classId);
+        if (!user?.classId) {
+          throw new Error('ID da classe do usuário não está disponível.');
+        }
+
+        const disciplinesData = await fetchClass(user.classId);
         setDisciplines(disciplinesData);
       } catch (error) {
         setError(error.message);
@@ -39,9 +58,7 @@ const Conceitos = () => {
       }
     };
 
-    if (user?.classId) {
-      fetchData();
-    }
+    fetchData();
   }, [user?.classId]);
 
   if (loading) {

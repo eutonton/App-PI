@@ -1,46 +1,39 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ActivityIndicator, FlatList } from 'react-native';
-import { useAuth } from '../AuthContext';
+import { View, Text, Button, ActivityIndicator, StyleSheet } from 'react-native';
 import axios from 'axios';
 
-const Conceitos = () => {
-  const { user } = useAuth();
-  const [disciplines, setDisciplines] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+const Conceitos = ({ route, navigation }) => {
+  const { studentId, classId, disciplineId, selectedUnit } = route.params;
+  const [loading, setLoading] = useState(false);
+  const [concepts, setConcepts] = useState([]);
+  const [error, setError] = useState('');
 
-  const fetchClass = async (classId) => {
+  // Endpoints para as unidades
+  const endpoints = {
+    UD1: `/api/concepts/conceptsOne/class/${classId}/discipline/${disciplineId}`,
+    UD2: `/api/concepts/conceptsTwo/class/${classId}/discipline/${disciplineId}`,
+    UD3: `/api/concepts/conceptsThree/class/${classId}/discipline/${disciplineId}`,
+  };
+
+  // Função para fazer a requisição ao endpoint correto
+  const fetchConcepts = async () => {
+    setLoading(true);
     try {
-      const response = await axios.get('http://192.168.1.106:8080/api/classes/getAllClasses');
-      const filteredClass = response.data.find((classItem) => classItem.id === classId);
-
-      if (!filteredClass) {
-        throw new Error('Classe não encontrada.');
-      }
-
-      return filteredClass.disciplines;
+      const response = await axios.get(endpoints[selectedUnit]);
+      const filteredConcepts = response.data.filter(concept => concept.studentId === studentId);
+      setConcepts(filteredConcepts);
     } catch (error) {
-      console.error('Erro ao buscar disciplinas:', error);
-      throw error;
+      setError('Erro ao buscar conceitos.');
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const disciplinesData = await fetchClass(user?.classId);
-        setDisciplines(disciplinesData);
-      } catch (error) {
-        setError(error.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (user?.classId) {
-      fetchData();
+    if (selectedUnit && classId && disciplineId && studentId) {
+      fetchConcepts();
     }
-  }, [user?.classId]);
+  }, [selectedUnit, classId, disciplineId, studentId]);
 
   if (loading) {
     return (
@@ -53,33 +46,28 @@ const Conceitos = () => {
   if (error) {
     return (
       <View style={styles.centered}>
-        <Text style={styles.errorText}>Erro: {error}</Text>
+        <Text style={styles.errorText}>{error}</Text>
       </View>
     );
   }
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Disciplinas da Classe</Text>
-      {disciplines.length > 0 ? (
-        <FlatList
-          data={disciplines}
-          keyExtractor={(item) => item.id} // ID único de cada disciplina
-          renderItem={({ item }) => (
-            <View style={styles.disciplineItem}>
-              <Text style={styles.disciplineText}>{item.disciplineName}</Text>
-              <Text style={styles.disciplineDescription}>{item.description}</Text>
-            </View>
-          )}
-        />
+      <Text style={styles.title}>Conceitos (Notas)</Text>
+      {concepts.length > 0 ? (
+        concepts.map((concept, index) => (
+          <View key={index} style={styles.conceptItem}>
+            <Text style={styles.conceptText}>Disciplina: {concept.disciplineName}</Text>
+            <Text style={styles.conceptText}>Nota: {concept.grade}</Text>
+          </View>
+        ))
       ) : (
-        <Text style={styles.noDisciplinesText}>Nenhuma disciplina encontrada.</Text>
+        <Text style={styles.noConceptsText}>Nenhum conceito encontrado.</Text>
       )}
+      <Button title="Voltar" onPress={() => navigation.goBack()} />
     </View>
   );
 };
-
-export default Conceitos;
 
 const styles = StyleSheet.create({
   container: {
@@ -92,7 +80,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 16,
   },
-  disciplineItem: {
+  conceptItem: {
     padding: 10,
     backgroundColor: '#ffffff',
     marginBottom: 10,
@@ -102,15 +90,11 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
     elevation: 2,
   },
-  disciplineText: {
+  conceptText: {
     fontSize: 16,
     color: '#333',
   },
-  disciplineDescription: {
-    fontSize: 14,
-    color: '#666',
-  },
-  noDisciplinesText: {
+  noConceptsText: {
     fontSize: 16,
     color: '#999',
     textAlign: 'center',
@@ -126,3 +110,5 @@ const styles = StyleSheet.create({
     color: 'red',
   },
 });
+
+export default Conceitos;
