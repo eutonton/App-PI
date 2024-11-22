@@ -1,12 +1,14 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import DrawerRoutes from './drawer.routes';
 import StackRoutes from './stack.routes';
+import { AuthProvider } from '../AuthContext'; 
 
 export default function App() {
   return (
-    <NavigationContainer>
-    <StackRoutes/>
-    </NavigationContainer>
+    <AuthProvider>
+      <NavigationContainer>
+        <StackRoutes />
+      </NavigationContainer>
+    </AuthProvider>
   );
 }

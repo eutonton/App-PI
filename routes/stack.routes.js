@@ -1,42 +1,35 @@
+import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import TabRoutes from './tab.routes';
 import Login from '../Components/Login';
 import Units from '../Components/Units';
 import DrawerRoutes from './drawer.routes';
-import Concepts from '../Components/Concepts'; // Adicionando a tela de conceitos
+import Concepts from '../Components/Concepts'; 
+import { useAuth } from '../AuthContext'; 
 
 const Stack = createNativeStackNavigator();
 
 export default function StackRoutes() {
-    return (
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
-            {/* Tela de Login */}
-            <Stack.Screen
-                name="login"
-                component={Login}
-            />
+  const { user } = useAuth(); // Verifica se o usuário está autenticado.
 
-            {/* Rotas da Home (Drawer e Tabs) */}
-            <Stack.Screen
-                name="Home"
-                component={DrawerRoutes}
-            />
-
-            {/* Tela de Conceitos */}
-            <Stack.Screen
-                name="Concepts"
-                component={Concepts}
-                options={{
-                    headerShown: true,
-                    title: 'Escolha a Unidade',
-                }}
-
-            />
-
-            <Stack.Screen
-                name="Units"
-                component={Units} />
-            </Stack.Navigator>
-    );
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      {user ? (
+        // Quando o usuário está logado, mostre as telas principais.
+        <>
+          <Stack.Screen name="Home" component={DrawerRoutes} />
+          <Stack.Screen 
+            name="Concepts" 
+            component={Concepts} 
+            options={{ headerShown: true, title: 'Escolha a Unidade' }}
+          />
+          <Stack.Screen name="Units" component={Units} />
+        </>
+      ) : (
+        // Caso contrário, exiba a tela de login.
+        <Stack.Screen name="login" component={Login} />
+      )}
+    </Stack.Navigator>
+  );
 }

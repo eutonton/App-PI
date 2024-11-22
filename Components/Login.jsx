@@ -1,14 +1,14 @@
-import React, { useState, useContext } from 'react';
-import { AuthContext, useAuth } from '../AuthContext';  // Certifique-se de importar o hook corretamente
+import React, { useState } from 'react';
+import { useAuth } from '../AuthContext'; // Certifique-se de importar o hook corretamente
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, StatusBar, Image, Alert, Platform } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import axios from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';  // Importando AsyncStorage
+import AsyncStorage from '@react-native-async-storage/async-storage'; // Importando AsyncStorage
 
 export default function Login({ navigation }) {
   const [cpf, setCpf] = useState('');
   const [password, setPassword] = useState('');
-  const { login } = useAuth();  // Usando o hook corretamente
+  const { login } = useAuth(); // Usando o hook corretamente
 
   const getApiUrl = () => {
     if (Platform.OS === 'android') {
@@ -30,34 +30,29 @@ export default function Login({ navigation }) {
       const response = await axios.post(apiUrl, { cpf, password });
 
       // Console para verificar o conteúdo da resposta da API
-      console.log("Dados recebidos da API:", response.data);
+      console.log('Dados recebidos da API:', response.data);
 
       const { token, name, role, id, email, studentClass } = response.data;
 
       if (token) {
-        const userData = response.data;
-
-        if (studentClass) {
-          userData.studentClassName = studentClass.nameClass;
-          userData.shift = studentClass.shift;
-        }
-
-        // Salvar dados no contexto
-        await login(userData);
-
-
-        const saveUserData = async (userData) => {
-          try {
-            // Salvar dados no AsyncStorage
-            await AsyncStorage.setItem('userData', JSON.stringify(userData));
-            console.log('Dados salvos com sucesso:', userData);
-          } catch (error) {
-            console.error('Erro ao salvar dados no AsyncStorage:', error);
-          }
+        const userData = {
+          token,
+          name,
+          role,
+          id,
+          email,
+          studentClassName: studentClass?.nameClass,
+          shift: studentClass?.shift,
         };
 
+        // Salvar dados no contexto
+        login(userData);
 
-        // Navegar para a tela Home com os dados do usuário
+        // Salvar dados no AsyncStorage
+        await AsyncStorage.setItem('userData', JSON.stringify(userData));
+        console.log('Dados salvos com sucesso no AsyncStorage:', userData);
+
+        // Navegar para a tela Home
         navigation.navigate('Home', { userData });
       } else {
         Alert.alert('Erro', 'Erro ao fazer login');

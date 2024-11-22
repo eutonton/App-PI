@@ -4,14 +4,13 @@ import Home from '../Components/Home';
 import Matter from '../Components/Matter';
 import Conceitos from '../Components/Concepts';
 import Avisos from '../Components/Avisos';
-import Profile from '../Components/Profile';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { useAuth } from '../AuthContext';  // Certifique-se de que o caminho esteja correto
+import { useAuth } from '../AuthContext'; 
 
 const Tab = createBottomTabNavigator();
 
 export default function TabRoutes() {
-  const { user } = useAuth();  // Aqui você pode acessar o usuário
+  const { user } = useAuth(); // Acesso ao usuário logado.
 
   return (
     <Tab.Navigator
