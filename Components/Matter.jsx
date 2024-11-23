@@ -87,7 +87,7 @@ const Materias = () => {
           renderItem={({ item }) => (
             <TouchableOpacity
               style={styles.disciplineItem}
-              onPress={() => navigation.navigate('Units', { discipline: item })} // Navegar para a tela de unidades
+              onPress={() => navigation.navigate('Concepts', { discipline: item })} // Navegar para a tela de unidades
             >
               <Text style={styles.disciplineText}>{item.disciplineName}</Text>
               <Text style={styles.disciplineDescription}>{item.description}</Text>
