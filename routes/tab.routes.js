@@ -36,9 +36,10 @@ export default function TabRoutes() {
         tabBarInactiveTintColor: '#656CEE',
       })}
     >
-      <Tab.Screen name="Avisos" component={Avisos} />
+      
       <Tab.Screen name="Home" component={Home} initialParams={{ userData: user }} />
       <Tab.Screen name="Conceitos" component={Matter} />
+      <Tab.Screen name="Avisos" component={Avisos} />
     </Tab.Navigator>
   );
 }
