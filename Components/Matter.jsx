@@ -4,7 +4,7 @@ import { useAuth } from '../AuthContext';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 
-const Conceitos = () => {
+const Materias = () => {
   const { user } = useAuth();
   const navigation = useNavigation();
   const [disciplines, setDisciplines] = useState([]);
@@ -101,7 +101,7 @@ const Conceitos = () => {
   );
 };
 
-export default Conceitos;
+export default Materias;
 
 const styles = StyleSheet.create({
   container: {
