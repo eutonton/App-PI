@@ -15,7 +15,7 @@ export default function Profile() {
     const fetchUserDetails = async () => {
       try {
         if (user && user.name) {
-          const response = await axios.get(`http://192.168.1.106:8080/api/users/alunos/findByNome/${user.name}`);
+          const response = await axios.get(`http://192.168.1.107:8080/api/users/alunos/findByNome/${user.name}`);
           
           if (response.data && response.data.length > 0) {
             // Pegando o primeiro objeto do array

@@ -133,6 +133,7 @@ const styles = StyleSheet.create({
     borderColor: '#ddd',
     borderRadius: 5,
     marginBottom: 20,
+    backgroundColor: 'white',
   },
   tableRow: {
     flexDirection: 'row',
