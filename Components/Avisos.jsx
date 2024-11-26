@@ -56,39 +56,54 @@ export default function Avisos() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f9f9f9',
+    backgroundColor: '#F5F5F5', // Fundo claro para um visual limpo
     paddingTop: 10,
   },
   noticeCard: {
-    backgroundColor: '#fff',
+    backgroundColor: '#FFFFFF', // Fundo branco para um cartão minimalista
     marginVertical: 8,
     marginHorizontal: 16,
-    padding: 20,
-    borderRadius: 8,
+    padding: 16,
+    borderRadius: 8, // Bordas levemente arredondadas para um visual moderno
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
+    shadowOpacity: 0.1,
     shadowRadius: 4,
-    elevation: 2,
+    elevation: 2, // Suave elevação para destacar os cartões
+    borderLeftWidth: 4, // Barra colorida na lateral para identificação visual
+    borderLeftColor: '#645CA5', // Roxo mais escuro para contraste
   },
   title: {
     fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 5,
-    color: '#333',
+    fontWeight: '600',
+    marginBottom: 8,
+    color: '#333333', // Cinza escuro para o texto principal
   },
   content: {
     fontSize: 16,
-    marginBottom: 5,
-    color: '#555',
+    marginBottom: 8,
+    color: '#555555', // Cinza médio para os textos secundários
+    lineHeight: 22, // Aumenta a legibilidade
   },
   date: {
     fontSize: 14,
-    color: '#888',
-    marginBottom: 5,
+    color: '#645CA5', // Roxo vibrante para dar destaque às datas
+    marginBottom: 4,
   },
   creator: {
     fontSize: 14,
-    color: '#888',
+    color: '#645CA5', // Rosa sutil para destacar o autor
+    fontWeight: '500',
+  },
+  activityIndicator: {
+    marginTop: 20,
+    alignSelf: 'center',
+    color: '#645CA5', // Roxo escuro para um visual elegante no carregamento
+  },
+  emptyState: {
+    fontSize: 16,
+    textAlign: 'center',
+    color: '#999999', // Cinza claro para mensagens de estado vazio
+    marginTop: 20,
   },
 });

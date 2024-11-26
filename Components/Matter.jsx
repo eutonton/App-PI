@@ -107,30 +107,35 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    backgroundColor: '#f8f8f8',
+    backgroundColor: '#f0f4f8', // Fundo mais suave e agradável aos olhos
   },
   title: {
-    fontSize: 20,
+    fontSize: 24, // Tamanho maior para destacar o título
     fontWeight: 'bold',
     marginBottom: 16,
+    color: '#333', // Cor escura para melhor contraste
+    textAlign: 'center', // Centralizar o título
   },
   disciplineItem: {
-    padding: 10,
+    padding: 12, // Margem interna maior
     backgroundColor: '#ffffff',
-    marginBottom: 10,
-    borderRadius: 5,
+    marginBottom: 12,
+    borderRadius: 8, // Bordas mais arredondadas
     shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-    elevation: 2,
+    shadowOpacity: 0.15,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 6,
+    elevation: 4, // Elevação para um efeito de "cartão"
   },
   disciplineText: {
-    fontSize: 16,
-    color: '#333',
+    fontSize: 18, // Tamanho maior para destaque
+    color: '#645CA5', // Azul suave para texto principal
+    fontWeight: '600',
   },
   disciplineDescription: {
     fontSize: 14,
-    color: '#666',
+    color: '#5f6368', // Cinza mais claro para descrição
+    marginTop: 4,
   },
   noDisciplinesText: {
     fontSize: 16,
@@ -142,9 +147,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#ffffff', // Fundo branco para estado de carregamento/erro
   },
   errorText: {
     fontSize: 16,
-    color: 'red',
+    color: '#d93025', // Vermelho para erro
+    textAlign: 'center',
+    fontWeight: '500',
   },
 });

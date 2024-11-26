@@ -29,7 +29,7 @@ export default function Home() {
         const fetchNotices = async () => {
             try {
                 const response = await axios.get(getApiUrl());
-                setNotices(response.data.slice(-3).reverse()); // Últimos 3 avisos
+                setNotices(response.data.slice(-2).reverse()); // Últimos 3 avisos
             } catch (error) {
                 Alert.alert('Erro', 'Não foi possível carregar os avisos.');
                 console.error('Erro ao buscar avisos:', error);
@@ -50,7 +50,13 @@ export default function Home() {
     );
 
     return (
+
         <View style={styles.container}>
+
+<View style={styles.topBar}>
+        <Text style={styles.topBarText}>Minha Aplicação</Text>
+    </View>
+
             <LinearGradient colors={['#D93083', '#9B4696', '#645CA5']} style={styles.gradientBox}>
                 <Text style={styles.title}>{userName}</Text>
                 <Text style={styles.subtitle}>Seja Bem-Vindo!</Text>
@@ -94,13 +100,14 @@ export default function Home() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#EAEAEA',
+        backgroundColor: '#f0f4f8',
         alignItems: 'center',
         paddingTop: 20,
-    },
+    }, 
+    
     gradientBox: {
         position: 'absolute',
-        top: 0,
+        Margintop: 0,
         width: 415,
         height: 350,
         borderBottomLeftRadius: 30,
@@ -219,7 +226,7 @@ const styles = StyleSheet.create({
         width: '100%',
         alignItems: 'center',
         marginTop: 10,
-        backgroundColor: '#EAEAEA', // Para destacar, opcional
+        backgroundColor: '#f0f4f8', // Para destacar, opcional
     },
     avisoTitulo: {
         fontSize: 16,
