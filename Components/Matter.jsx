@@ -15,7 +15,7 @@ const Materias = () => {
     try {
       console.log('Buscando classes para classId:', classId);
 
-      const response = await axios.get('http://192.168.1.107:8080/api/classes/getAllClasses');
+      const response = await axios.get('https://sis-medio-production.up.railway.app/api/classes/getAllClasses');
       console.log('Resposta completa da API:', response.data);
 
       // Valida se a resposta é um array

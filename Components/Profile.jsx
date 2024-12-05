@@ -15,7 +15,7 @@ export default function Profile() {
     const fetchUserDetails = async () => {
       try {
         if (user && user.name) {
-          const response = await axios.get(`http://192.168.1.107:8080/api/users/alunos/findByNome/${user.name}`);
+          const response = await axios.get(`https://sis-medio-production.up.railway.app/api/users/alunos/findByNome/${user.name}`);
           
           //console.log(response)
 

@@ -38,7 +38,7 @@ const Conceitos = ({ route }) => {
         }
 
         // Requisição para o endpoint correto
-        const response = await fetch(`http://192.168.1.107:8080/api/concepts${endpoint}`);
+        const response = await fetch(`https://sis-medio-production.up.railway.app/api/concepts${endpoint}`);
         const unitData = await response.json();
         
         // Filtrando os dados para o aluno logado

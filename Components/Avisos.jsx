@@ -8,9 +8,9 @@ export default function Avisos() {
 
   const getApiUrl = () => {
     if (Platform.OS === 'android') {
-      return 'http://10.0.2.2:8080/api/statement/getAllStatements';
+      return 'https://sis-medio-production.up.railway.app/api/statement/getAllStatements';
     }
-    return 'http://localhost:8080/api/statement/getAllStatements';
+    return 'https://sis-medio-production.up.railway.app/api/statement/getAllStatements';
   };
 
   useEffect(() => {

@@ -16,8 +16,8 @@ export default function Home() {
 
     const getApiUrl = () => {
         return Platform.OS === 'android'
-            ? 'http://10.0.2.2:8080/api/statement/getAllStatements'
-            : 'http://localhost:8080/api/statement/getAllStatements';
+            ? 'https://sis-medio-production.up.railway.app/api/statement/getAllStatements'
+            : 'https://sis-medio-production.up.railway.app/api/statement/getAllStatements';
     };
 
     useEffect(() => {
