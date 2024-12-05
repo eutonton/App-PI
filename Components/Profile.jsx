@@ -17,6 +17,8 @@ export default function Profile() {
         if (user && user.name) {
           const response = await axios.get(`http://192.168.1.107:8080/api/users/alunos/findByNome/${user.name}`);
           
+          console.log(response)
+
           if (response.data && response.data.length > 0) {
             // Pegando o primeiro objeto do array
             const userData = response.data[0];
@@ -50,7 +52,11 @@ export default function Profile() {
         colors={['#D93083', '#9B4696', '#645CA5']} // Gradiente de 3 cores
         style={styles.box}
       >
-        <Image source={require('../assets/profile_icon.png')} style={styles.profileIcon} />
+        <Image 
+  source={{ uri: userDetails.imgProfile || 'https://via.placeholder.com/160' }} 
+  style={styles.profileIcon} 
+/>
+ {/*Inserir a foto do retorno aqui*/}
         <Text style={styles.subiImgText}>{user.name}</Text>
         <Text style={styles.subiImgText2}>{userDetails.email}</Text>
 

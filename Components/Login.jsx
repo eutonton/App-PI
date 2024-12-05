@@ -118,6 +118,7 @@ const styles = StyleSheet.create({
     padding: 30,
     borderRadius: 30,
     alignItems: 'center',
+    minHeight: 450, // Altura mínima ajustável
   },
   logo: {
     width: 180,
