@@ -17,7 +17,7 @@ export default function Profile() {
         if (user && user.name) {
           const response = await axios.get(`http://192.168.1.107:8080/api/users/alunos/findByNome/${user.name}`);
           
-          console.log(response)
+          //console.log(response)
 
           if (response.data && response.data.length > 0) {
             // Pegando o primeiro objeto do array
